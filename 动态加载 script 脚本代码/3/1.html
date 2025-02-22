@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <button onclick="loadScript()">加载外部脚本</button>
+    <script>
+
+
+
+        // importScript()
+
+
+        function loadScript() {
+
+
+            importScript('./1.js').then(() => {
+                console.log('1.js 加载完成')
+
+                return importScript('./2.js')
+            }).then(() => {
+                console.log('2.js 加载完成')
+            }).catch(err => {
+
+                console.error(err)
+            })
+
+        }
+
+        function importScript(url) {
+
+            return new Promise((resolve, reject) => {
+                const scriptNode = document.createElement("script");
+
+                scriptNode.onload = () => {
+                    resolve()
+                }
+
+                scriptNode.onerror = () => {
+                    reject()
+                }
+
+                scriptNode.src = url
+
+                document.head.appendChild(scriptNode)
+            })
+
+
+        }
+    </script>
+</body>
+
+</html>
